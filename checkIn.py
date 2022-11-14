@@ -13,6 +13,21 @@ from selenium.webdriver.support import expected_conditions as EC
 mobile_emulation = {"deviceMetrics": {"width": 360, "height": 640, "pixelRatio": 3.0},
                     "userAgent": "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19"}
 
+# coding=utf-8 
+from selenium import webdriver
+import time
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.support.ui import WebDriverWait
+import configparser
+import os
+import sys, traceback
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+
+mobile_emulation = {"deviceMetrics": {"width": 360, "height": 640, "pixelRatio": 3.0},
+                    "userAgent": "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19"}
+
 # 配置加载策略
 # desired_capabilities = DesiredCapabilities.CHROME  # 修改页面加载策略
 # desired_capabilities["pageLoadStrategy"] = "eager"  # 注释这两行会导致最后输出结果的延迟，即等待页面加载完成再输出
@@ -41,7 +56,7 @@ def prepare_browser(uid):
         url_login = "http://ehallplatform.xust.edu.cn/default/jkdk/mobile/mobJkdkAdd_test.jsp?uid=" + uid
         driver.get(url_login)
 
-        time.sleep(3)
+        time.sleep(5)
 
         driver.execute_script('$("#ssq").show();')
         driver.execute_script('$("#xxd").show();')
@@ -55,7 +70,7 @@ def prepare_browser(uid):
         driver.execute_script('''$("#jingdu").val('108.967363');''')
         driver.execute_script('''$("#weidu").val('34.231581');''')
 
-        time.sleep(1)
+        time.sleep(3)
         input = WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'input.srk.jiaodian')))
 
         target = driver.find_elements(By.CSS_SELECTOR, 'input.srk.jiaodian')[1]
@@ -119,7 +134,7 @@ def check_in(uid, SERVERPUSHKEY):
     else:
         text = "打卡成功:"
 
-     if text == "打卡成功:" and SERVERPUSHKEY:
+    if text == "打卡成功:" and SERVERPUSHKEY:
         driver = webdriver.Chrome(options=chrome_options)  # 获取浏览器句柄
         url = "https://api2.pushdeer.com/message/push?pushkey=" + SERVERPUSHKEY + "&text=✅今日健康打卡已完成✅"
         driver.get(url)
@@ -130,6 +145,7 @@ def check_in(uid, SERVERPUSHKEY):
         driver.get(url)
         time.sleep(60 * 15)
         check_in(uid, SERVERPUSHKEY)
+   
         
 
 
