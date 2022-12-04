@@ -12,7 +12,7 @@ on:
         required: false
 
   schedule:
-    - cron: '47 13 * * *'
+    - cron: '48 13 * * *'
     # run every day at 17:30 in UTC+8
 
 jobs:
